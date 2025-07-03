@@ -34,6 +34,10 @@ const confirmGiftsButton = document.getElementById("confirm-gifts");
 let currentAngle = 0;
 
 function drawWheel() {
+    if (!ctx) {
+        console.error("Canvas context is null");
+        return;
+    }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
@@ -85,6 +89,10 @@ function spinWheel() {
         return;
     }
     console.log("Spin button clicked"); // 調試日誌
+    if (!ctx) {
+        console.error("Canvas context is unavailable");
+        return;
+    }
     spinButton.disabled = true;
     resultText.textContent = "轉盤中...";
     const randomSpins = Math.floor(Math.random() * 3) + 3; // 隨機轉 3-5 圈
@@ -96,7 +104,7 @@ function spinWheel() {
 
     function animate(time) {
         if (!startTime) startTime = time;
-        const progress = Math.min((time - startTime) / duration, 1); // 確保 progress 不超過 1
+        const progress = Math.min((time - startTime) / duration, 1);
         if (progress < 1) {
             currentAngle = progress * totalRotation * (Math.PI / 180);
             ctx.save();
@@ -152,4 +160,5 @@ confirmGiftsButton.addEventListener("click", () => {
 
 // 初始化
 drawWheel();
+spinButton.disabled = false; // 預設啟用，因為有所有禮物
 resultText.textContent = "請按轉動輪盤！";
