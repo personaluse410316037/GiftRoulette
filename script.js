@@ -36,7 +36,7 @@ let currentAngle = 0;
 function drawWheel() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2; // 修正為 / 2
+    const centerY = canvas.height / 2;
     const radius = canvas.width / 2 - 10;
     const numSegments = selectedGifts.length;
     const segmentAngle = numSegments > 0 ? (2 * Math.PI) / numSegments : 0;
@@ -61,18 +61,16 @@ function drawWheel() {
         ctx.fill();
         ctx.stroke();
 
-        // 繪製禮物名稱和 emoji
         ctx.save();
         ctx.translate(centerX, centerY);
         ctx.rotate(startAngle + segmentAngle / 2);
         ctx.fillStyle = "#000";
-        ctx.font = numSegments > 10 ? "12px Arial" : "16px Arial"; // 動態調整字體大小
+        ctx.font = numSegments > 10 ? "12px Arial" : "16px Arial";
         ctx.textAlign = "right";
         ctx.fillText(selectedGifts[i].name + " " + selectedGifts[i].emoji, radius - 20, 10);
         ctx.restore();
     }
 
-    // 繪製指針
     ctx.beginPath();
     ctx.moveTo(centerX + radius, centerY);
     ctx.lineTo(centerX + radius - 20, centerY - 10);
@@ -86,6 +84,7 @@ function spinWheel() {
         resultText.textContent = "請先選擇禮物！";
         return;
     }
+    console.log("Spin button clicked"); // 調試日誌
     spinButton.disabled = true;
     resultText.textContent = "轉盤中...";
     const randomSpins = Math.floor(Math.random() * 3) + 3; // 隨機轉 3-5 圈
@@ -97,7 +96,7 @@ function spinWheel() {
 
     function animate(time) {
         if (!startTime) startTime = time;
-        const progress = (time - startTime) / duration;
+        const progress = Math.min((time - startTime) / duration, 1); // 確保 progress 不超過 1
         if (progress < 1) {
             currentAngle = progress * totalRotation * (Math.PI / 180);
             ctx.save();
