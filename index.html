@@ -8,10 +8,16 @@
 </head>
 <body>
     <h1>送禮勤 🎉</h1>
+    <button id="select-gifts-button">選擇禮物</button>
+    <div id="gift-selection" style="display: none;">
+        <h2>選擇輪盤上的禮物</h2>
+        <form id="gift-form"></form>
+        <button id="confirm-gifts">確認選擇</button>
+    </div>
     <div id="wheel-container">
         <canvas id="wheel" width="400" height="400"></canvas>
     </div>
-    <button id="spin-button">轉動輪盤！</button>
+    <button id="spin-button" disabled>轉動輪盤！</button>
     <p id="result"></p>
     <script src="script.js"></script>
 </body>
