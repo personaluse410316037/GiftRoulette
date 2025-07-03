@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+#wheel-container {
+    margin: 20px auto;
+}
+
+#wheel {
+    border: 2px solid #333;
+    border-radius: 50%;
+}
+
+#spin-button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#spin-button:hover {
+    background-color: #e65b50;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #333;
+}
