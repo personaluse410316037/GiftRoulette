@@ -23,7 +23,7 @@ const allGifts = [
 
 let selectedGifts = [...allGifts]; // 預設全選
 const canvas = document.getElementById("wheel");
-const ctx = canvas.getContext("2d");
+const ctx = canvas ? canvas.getContext("2d") : null;
 const spinButton = document.getElementById("spin-button");
 const resultText = document.getElementById("result");
 const selectGiftsButton = document.getElementById("select-gifts-button");
@@ -35,7 +35,8 @@ let currentAngle = 0;
 
 function drawWheel() {
     if (!ctx) {
-        console.error("Canvas context is null");
+        console.error("Canvas context is null or unavailable");
+        resultText.textContent = "錯誤：無法渲染輪盤，請檢查頁面！";
         return;
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -88,13 +89,14 @@ function spinWheel() {
         resultText.textContent = "請先選擇禮物！";
         return;
     }
-    console.log("Spin button clicked"); // 調試日誌
     if (!ctx) {
-        console.error("Canvas context is unavailable");
+        console.error("Canvas context is unavailable during spin");
+        resultText.textContent = "錯誤：無法啟動轉盤！";
         return;
     }
+    console.log("Spin button clicked"); // 調試日誌
+    resultText.textContent = "開始轉動..."; // 立即反饋
     spinButton.disabled = true;
-    resultText.textContent = "轉盤中...";
     const randomSpins = Math.floor(Math.random() * 3) + 3; // 隨機轉 3-5 圈
     const randomAngle = Math.random() * 360;
     const totalRotation = randomSpins * 360 + randomAngle;
@@ -159,6 +161,11 @@ confirmGiftsButton.addEventListener("click", () => {
 });
 
 // 初始化
-drawWheel();
-spinButton.disabled = false; // 預設啟用，因為有所有禮物
-resultText.textContent = "請按轉動輪盤！";
+if (canvas && ctx) {
+    drawWheel();
+    spinButton.disabled = false; // 預設啟用，因為有所有禮物
+    resultText.textContent = "請按轉動輪盤！";
+} else {
+    console.error("Canvas or context not found:", canvas, ctx);
+    resultText.textContent = "錯誤：頁面初始化失敗！";
+}
